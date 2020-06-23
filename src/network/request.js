@@ -3,7 +3,7 @@ import axios from "axios"
 export function request(config) {
 
   const instance = axios.create({
-    baseURL: "",
+    baseURL: "http://www.demotp6.com/",
     timeout: 5000
   })
 
@@ -14,7 +14,7 @@ export function request(config) {
   })
 
   instance.interceptors.response.use( res => {
-    return res.data
+    return JSON.parse(res.data)
   }, err => {
     console.log(err);
   })

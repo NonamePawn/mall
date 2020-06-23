@@ -1,7 +1,13 @@
 import {request} from "./request";
 
-export function getHomeMulidata() {
+export function banner() {
   return request({
-    url: ''
+    url: 'index.php/home/banner'
+  })
+}
+
+export function recommend() {
+  return request({
+    url: 'index.php/home/recommend'
   })
 }
