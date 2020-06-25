@@ -1,6 +1,6 @@
 <template>
   <div class="recommend">
-    <home-recommend-item v-for="item in recommend">
+    <home-recommend-item v-for="(item, index) in recommends" :key="index">
       <div class="recommend-item">
           <a :href="item.link" slot="img">
             <img :src="item.url" alt="">
@@ -16,7 +16,7 @@
   export default {
     name: "HomeRecommend",
     props: {
-     recommend: {
+     recommends: {
       type: Array,
       default() {
         return [];
@@ -33,6 +33,7 @@
   .recommend {
     display: flex;
     flex-wrap: wrap;
+    border-bottom: 8px solid rgba(100, 100, 100, .1);
   }
 
   .recommend-item {

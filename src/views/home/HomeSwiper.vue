@@ -1,11 +1,13 @@
 <template>
-  <swiper>
-    <swiper-item v-for="item in banners">
-      <a :href="item.link">
-        <img :src="item.url" alt="">
-      </a>
-    </swiper-item>
-  </swiper>
+  <div class="home-swiper">
+    <swiper>
+      <swiper-item v-for="(item, index) in banners" :key="index">
+        <a :href="item.link">
+          <img :src="item.url" alt="">
+        </a>
+      </swiper-item>
+    </swiper>
+  </div>
 </template>
 
 <script>
@@ -28,5 +30,7 @@
 </script>
 
 <style scoped>
-
+  .home-swiper {
+    overflow: hidden;
+  }
 </style>
