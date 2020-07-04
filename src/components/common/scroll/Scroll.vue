@@ -16,6 +16,18 @@
         default () {
           return 0
         }
+      },
+      pullUpLoad: {
+        type: Boolean,
+        default() {
+          return false;
+        }
+      },
+      isClick : {
+        type: Boolean,
+        default() {
+          return false;
+        }
       }
     },
     data() {
@@ -25,15 +37,34 @@
     },
     mounted() {
       this.scroll = new BScroll(this.$refs.wrapper, {
-        probeType: this.probeType
+        probeType: this.probeType,
+        pullUpLoad: this.pullUpLoad,
+        click: this.isClick
       });
-      this.scroll.on('scroll', (position) => {
-        this.$emit('scroll', position)
-      })
+
+      if (this.probeType === 2 || this.probeType === 3 ) {
+        this.scroll.on('scroll', (position) => {
+          this.$emit('scroll', position)
+          this.$emit('sticky', position)
+        });
+      }
+
+      if (this.pullUpLoad) {
+        this.scroll.on('pullingUp', () => {
+          this.$emit('pullingUp')
+        });
+      }
+
     },
     methods: {
       scrollTo (x, y ,time=500) {
         this.scroll.scrollTo(x, y, time)
+      },
+      finishPullUp () {
+        this.scroll.finishPullUp()
+      },
+      refresh () {
+        this.scroll.refresh();
       }
     }
 
@@ -41,11 +72,4 @@
 </script>
 
 <style scoped>
-  .wrapper {
-    position: absolute;
-    top: 44px;
-    bottom: 49px;
-    left: 0;
-    right: 0;
-  }
 </style>

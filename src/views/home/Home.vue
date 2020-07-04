@@ -1,11 +1,19 @@
 <template>
   <div id="home">
     <nav-bar class="home-nav"><div slot="center">购物街</div></nav-bar>
-    <scroll ref="scroll"  @scroll="contentScroll" :probeType="3">
-      <home-swiper :banners="banners"></home-swiper>
+    <tab-controller class="tab-controller" :title="['流行', '热卖', '新款']" @tabClick="tabClick" v-show="isSticky" ref="tabController1"></tab-controller>
+    <scroll class="wrapper"
+            ref="scroll"
+            @scroll="contentScroll"
+            @pullingUp="pullingUp"
+            @sticky="sticky"
+            :pullUpLoad="true"
+            :probeType="3"
+            :isClick="true">
+      <home-swiper :banners="banners" @swiperImgLoad="swiperImgLoad"></home-swiper>
       <home-recommend :recommends="recommends"></home-recommend>
       <home-feature-view></home-feature-view>
-      <tab-controller :title="['流行', '热卖', '新款']" @tabClick="tabClick"></tab-controller>
+      <tab-controller class="tab-controller" :title="['流行', '热卖', '新款']" @tabClick="tabClick" ref="tabController2"></tab-controller>
       <goods-list :goods="goods[currentType].list" ></goods-list>
     </scroll>
     <back-top @click.native="backClick" v-show="isShowBackTop"></back-top>
@@ -22,6 +30,7 @@
   import TabController from "components/content/tabcontroller/TabController";
   import GoodsList from "components/content/goodslist/GoodsList";
   import BackTop from "components/content/backtop/BackTop";
+  import { Debounce } from "common/utils"
   import {
     banner,
     recommend,
@@ -40,7 +49,9 @@
           'sell': { page: 0, list: [] }
         },
         currentType: 'pop',
-        isShowBackTop: false
+        isShowBackTop: false,
+        isSticky: false,
+        tabControllerOffsetTop: 0
       }
     },
     components: {
@@ -59,7 +70,12 @@
       this.getGoods('pop');
       this.getGoods('sell');
       this.getGoods('new');
-
+    },
+    mounted() {
+      const refresh = Debounce(this.$refs.scroll.refresh, 300);
+      this.$bus.$on('imgLoad', () => {
+        refresh()
+      })
     },
     methods: {
       banner () {
@@ -87,6 +103,7 @@
         getGoods(type, this.goods[type].page).then(
             res => {
               this.goods[type].list.push(...res);
+              this.$refs.scroll.finishPullUp()
             },
             err => {
               console.log(err);
@@ -104,30 +121,55 @@
           case 2 :
             this.currentType = 'new'
         }
+        this.$refs.tabController1.currentIndex = index;
+        this.$refs.tabController2.currentIndex = index
       },
       backClick () {
         this.$refs.scroll.scrollTo(0, 0, 500)
       },
       contentScroll (position) {
         this.isShowBackTop = (-position.y) > 1000;
+      },
+      pullingUp () {
+        this.getGoods(this.currentType);
+      },
+      sticky (position) {
+        this.isSticky = (-position.y) > this.tabControllerOffsetTop
+      },
+      swiperImgLoad () {
+        this.tabControllerOffsetTop = this.$refs.tabController2.$el.offsetTop;
       }
     }
   }
 </script>
 
 <style scoped>
-  #home {
-    padding-top: 44px;
-  }
 
   .home-nav {
-    position: fixed;
-    left: 0;
-    top: 0;
-    right: 0;
     background-color: var(--color-init);
     color: #ffffff;
     height: 44px;
-    z-index: 1;
+    position: relative;
+    z-index: 9;
+  }
+
+  .wrapper {
+    position: absolute;
+    top: 44px;
+    bottom: 49px;
+    left: 0;
+    right: 0;
+  }
+
+  .tab-controller {
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    font-size: 20px;
+    color: #7b807f;
+    line-height: 20px;
+    background-color: white;
+    position: relative;
+    z-index: 9;
   }
 </style>

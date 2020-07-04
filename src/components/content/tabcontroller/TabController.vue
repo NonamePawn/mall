@@ -25,24 +25,13 @@
     methods: {
       change (index) {
         this.currentIndex = index;
-        this.$emit('tabClick', index)
+        this.$emit('tabClick', index);
       }
     }
   }
 </script>
 
 <style scoped>
-  .tab-controller {
-    display: flex;
-    justify-content: space-around;
-    text-align: center;
-    font-size: 20px;
-    color: #7b807f;
-    position: sticky;
-    top: 44px;
-    line-height: 20px;
-    background-color: white;
-  }
 
   .tab-controller-item {
     margin: 10px 0px;
