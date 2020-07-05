@@ -9,6 +9,12 @@ export function getDetail(id) {
   })
 }
 
+export function getSimilar() {
+  return request({
+    url: 'index.php/home/similar'
+  })
+}
+
 export class Details {
   constructor(baseInfo) {
     this.title_img = baseInfo.title_img;

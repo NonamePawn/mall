@@ -29,7 +29,8 @@
   import HomeFeatureView from "./HomeFeatureView";
   import TabController from "components/content/tabcontroller/TabController";
   import GoodsList from "components/content/goodslist/GoodsList";
-  import BackTop from "components/content/backtop/BackTop";
+
+  import { MixinBackTop } from "common/mixin";
   import { Debounce } from "common/utils"
   import {
     banner,
@@ -39,6 +40,7 @@
 
   export default {
     name: "Home",
+    mixins: [MixinBackTop],
     data() {
       return {
         banners: [],
@@ -49,7 +51,6 @@
           'sell': { page: 0, list: [] }
         },
         currentType: 'pop',
-        isShowBackTop: false,
         isSticky: false,
         tabControllerOffsetTop: 0
       }
@@ -62,7 +63,6 @@
       HomeFeatureView,
       TabController,
       GoodsList,
-      BackTop
     },
     created() {
       this.banner();
@@ -122,10 +122,7 @@
             this.currentType = 'new'
         }
         this.$refs.tabController1.currentIndex = index;
-        this.$refs.tabController2.currentIndex = index
-      },
-      backClick () {
-        this.$refs.scroll.scrollTo(0, 0, 500)
+        this.$refs.tabController2.currentIndex = index;
       },
       contentScroll (position) {
         this.isShowBackTop = (-position.y) > 1000;

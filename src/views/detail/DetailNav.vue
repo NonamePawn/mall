@@ -17,7 +17,7 @@
     name: "DetailNav",
     data() {
       return {
-        title: ['商品', '参数', '评价', '推荐'],
+        title: ['商品', '参数', '推荐', '评价'],
         currentIndex: 0
       }
     },
@@ -26,7 +26,8 @@
     },
     methods: {
       itemClick(index) {
-        this.currentIndex = index
+        this.currentIndex = index;
+        this.$emit('itemClick', index)
       },
       backClick() {
         this.$router.back()
