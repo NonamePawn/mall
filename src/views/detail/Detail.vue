@@ -114,7 +114,12 @@
         product.title = this.baseInfo.title_text;
         product.desc = this.baseInfo.desc;
         product.id = this.id;
-        this.$store.dispatch('addCar', product)
+        this.$store.dispatch('addCar', product).then(
+            res => {
+              this.$toast.show(res, 2000)
+            },
+
+        )
       }
     }
   }

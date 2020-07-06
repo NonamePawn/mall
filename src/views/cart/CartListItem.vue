@@ -1,105 +1,21 @@
 <template>
   <div class="item">
-    <li>内容1</li>
-    <li>内容2</li>
-    <li>内容3</li>
-    <li>内容4</li>
-    <li>内容5</li>
-    <li>内容6</li>
-    <li>内容7</li>
-    <li>内容8</li>
-    <li>内容9</li>
-    <li>内容10</li>
-    <li>内容11</li>
-    <li>内容12</li>
-    <li>内容13</li>
-    <li>内容14</li>
-    <li>内容15</li>
-    <li>内容16</li>
-    <li>内容17</li>
-    <li>内容18</li>
-    <li>内容19</li>
-    <li>内容20</li>
-    <li>内容21</li>
-    <li>内容22</li>
-    <li>内容23</li>
-    <li>内容24</li>
-    <li>内容25</li>
-    <li>内容26</li>
-    <li>内容27</li>
-    <li>内容28</li>
-    <li>内容29</li>
-    <li>内容30</li>
-    <li>内容31</li>
-    <li>内容32</li>
-    <li>内容33</li>
-    <li>内容34</li>
-    <li>内容35</li>
-    <li>内容36</li>
-    <li>内容37</li>
-    <li>内容38</li>
-    <li>内容39</li>
-    <li>内容40</li>
-    <li>内容41</li>
-    <li>内容42</li>
-    <li>内容43</li>
-    <li>内容44</li>
-    <li>内容45</li>
-    <li>内容46</li>
-    <li>内容47</li>
-    <li>内容48</li>
-    <li>内容49</li>
-    <li>内容50</li>
-    <li>内容51</li>
-    <li>内容52</li>
-    <li>内容53</li>
-    <li>内容54</li>
-    <li>内容55</li>
-    <li>内容56</li>
-    <li>内容57</li>
-    <li>内容58</li>
-    <li>内容59</li>
-    <li>内容60</li>
-    <li>内容61</li>
-    <li>内容62</li>
-    <li>内容63</li>
-    <li>内容64</li>
-    <li>内容65</li>
-    <li>内容66</li>
-    <li>内容67</li>
-    <li>内容68</li>
-    <li>内容69</li>
-    <li>内容70</li>
-    <li>内容71</li>
-    <li>内容72</li>
-    <li>内容73</li>
-    <li>内容74</li>
-    <li>内容75</li>
-    <li>内容76</li>
-    <li>内容77</li>
-    <li>内容78</li>
-    <li>内容79</li>
-    <li>内容80</li>
-    <li>内容81</li>
-    <li>内容82</li>
-    <li>内容83</li>
-    <li>内容84</li>
-    <li>内容85</li>
-    <li>内容86</li>
-    <li>内容87</li>
-    <li>内容88</li>
-    <li>内容89</li>
-    <li>内容90</li>
-    <li>内容91</li>
-    <li>内容92</li>
-    <li>内容93</li>
-    <li>内容94</li>
-    <li>内容95</li>
-    <li>内容96</li>
-    <li>内容97</li>
-    <li>内容98</li>
-    <li>内容99</li>
-    <li>内容100</li>
+    <div class="item-check">
+      <div class="check" :class="{active: product.checked}" @click="itemClick">
+        <img src="~assets/img/cart/check.png" alt="">
+      </div>
+    </div>
+    <div class="item-img">
+      <img :src="product.image" alt="">
+    </div>
+    <div class="item-text">
+      <p class="title">{{product.title}}</p>
+      <p class="desc">{{product.desc}}</p>
+      <div class="p-n">
+       <div class="price">{{product.price}}</div>
+       <div class="number">X{{product.count}}</div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -113,10 +29,90 @@
           return {}
         }
       }
+    },
+    methods: {
+      itemClick() {
+        this.product.checked = !this.product.checked
+      }
     }
   }
 </script>
 
 <style scoped>
+  .item {
+    width: 100%;
+    height: 160px;
+    display: flex;
+    padding: 5px;
+    border-bottom: 2px solid #d6d6d6;
+  }
 
+  .item-check {
+    width: 10%;
+    display: flex;
+    text-align: center;
+  }
+
+  .item-check .check{
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    border: 2px solid #a5a5a5;
+    align-self: center;
+  }
+
+  .item-check .check img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .item-img {
+    width: 40%;
+    border-radius: 5px;
+  }
+
+  .item-img img {
+    width: 100%;
+    height: 100%;
+  }
+
+  .item-text {
+    width: 50%;
+    position: relative;
+  }
+
+  .item-text .title {
+    font-size: 20px;
+  }
+
+  .item-text .desc {
+    color: #ff5777;
+    font-size: 12px;
+  }
+
+  .item-text p {
+    line-height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .item-text .p-n {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    display: flex;
+    font-size: 24px;
+    justify-content: space-between;
+  }
+
+  .item-text .p-n .price{
+    color: #e4393c;
+  }
+
+  .active {
+    background-color: #ff5777;
+    border: 2px solid #ff5777 !important;
+  }
 </style>
